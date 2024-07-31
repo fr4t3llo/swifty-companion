@@ -71,7 +71,7 @@ class _SearchPageState extends State<SearchPage>
                       ),
                     ),
                     child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           "SEARCH",
