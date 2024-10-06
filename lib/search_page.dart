@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:swifty_companion/profile.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -59,7 +60,7 @@ class _SearchPageState extends State<SearchPage>
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const SearchPage(),
+                          builder: (context) => const ProfilePage(),
                         ),
                       );
                     },
