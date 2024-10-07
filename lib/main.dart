@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:swifty_companion/profile.dart';
 import 'search_page.dart';
 import 'package:device_preview_plus/device_preview_plus.dart';
 
 void main() => runApp(
       DevicePreview(
         enabled: true,
-        builder: (context) => const ProfilePage(), // Wrap your app
+        builder: (context) => const MyApp(), // Wrap your app
       ),
     );
 
