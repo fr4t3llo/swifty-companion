@@ -90,6 +90,9 @@ flutter:
   - family: mytwo
     fonts:
       - asset: assets/fonts/Comfortaa-VariableFont_wght.ttf
+  - family: _2
+    fonts:
+      - asset: assets/fonts/2.ttf
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

@@ -24,7 +24,7 @@ class _SearchPageState extends State<SearchPage>
               ),
             ),
           ),
-          Center(
+          Center( 
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[

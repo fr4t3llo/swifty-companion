@@ -13,6 +13,12 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.sizeOf(context);
     final String level = '14.05';
+    final String login = 'skasmi';
+    final String fullName = 'saifeddine kasmi';
+    final String wallet = '1400 ₳';
+    final String email = 'skasmi@student.1337.ma';
+    final String mobile = '+212661189840';
+
     return MaterialApp(
       home: Container(
         decoration: const BoxDecoration(
@@ -44,62 +50,72 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Column(
                 children: [
                   Container(
-                    height: 200,
+                    height: 150,
                     width: screenSize.width * 95 / 100,
                     decoration: BoxDecoration(
                         color: const Color.fromARGB(40, 255, 255, 255),
                         borderRadius: BorderRadius.circular(15)),
-                    child: Center(
-                      child: Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: CircleAvatar(
-                                  maxRadius: 50,
-                                  backgroundImage: NetworkImage(
-                                      'assets/images/skasmi.jpeg')),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    'skasmi',
-                                    style: TextStyle(
-                                        fontSize: 24,
-                                        fontFamily: 'mytwo',
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black),
-                                  ),
-                                  SizedBox(
-                                    width: screenSize.width * 0.5,
-                                    child: LinearPercentIndicator(
-                                      animation: true,
-                                      lineHeight: 18.0,
-                                      animationDuration: 2500,
-                                      percent: 0.05,
-                                      barRadius: Radius.circular(10),
-                                      curve: Curves.ease,
-                                      center: Text(
-                                        "Level  $level% ",
-                                        style: TextStyle(
-                                            fontFamily: 'mytwo',
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 12),
-                                      ),
-                                      linearStrokeCap: LinearStrokeCap.roundAll,
-                                      progressColor: const Color.fromARGB(
-                                          255, 217, 0, 101),
-                                    ),
-                                  ),
-                                ],
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: const Column(
+                            children: [
+                               CircleAvatar(
+                                radius: Radius.circular(10),
+                                maxRadius: 50,
+                                backgroundImage:
+                                    NetworkImage('assets/images/skasmi.jpeg'),
                               ),
-                            )
-                          ],
+                              Text(
+                                login,
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'mytwo',
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              fullName,
+                              style: const TextStyle(
+                                  fontSize: 15, color: Colors.black),
+                            ),
+                            const SizedBox(height: 10),
+                            Text('wallet: $wallet'),
+                            const SizedBox(height: 10),
+                            Text('email: $email'),
+                            const SizedBox(height: 10),
+                            Text('mobile: $mobile'),
+                            const SizedBox(height: 10),
+                            SizedBox(
+                              width: screenSize.width * 0.59,
+                              child: LinearPercentIndicator(
+                                animation: true,
+                                lineHeight: 18.0,
+                                animationDuration: 2000,
+                                percent: 0.5,
+                                barRadius: const Radius.circular(3),
+                                center: Text(
+                                  "Level  $level% ",
+                                  style: const TextStyle(
+                                      fontFamily: 'mytwo',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12),
+                                ),
+                                progressColor:
+                                    const Color.fromARGB(255, 245, 189, 57),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
                     ),
                   )
                 ],
