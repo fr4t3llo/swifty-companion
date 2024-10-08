@@ -143,7 +143,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                             const SizedBox(height: 10),
                             SizedBox(
-                              width: screenSize.width * 0.59,
+                              width: screenSize.width * 60 / 100,
                               child: LinearPercentIndicator(
                                 animation: true,
                                 lineHeight: 18.0,
@@ -203,7 +203,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 backgroundColor: WidgetStatePropertyAll(
                               Colors.amber,
                             )),
-                            onPressed: () => _onButtonPressed(1),
+                            onPressed: () => _onButtonPressed(0),
                             label: const Text(
                               'Skills',
                               style: TextStyle(
