@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:swifty_companion/profile.dart';
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
