@@ -22,9 +22,9 @@ class _ProfilePageState extends State<ProfilePage> {
     return MaterialApp(
       home: Container(
         decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage("assets/images/backV2.png"),
-                fit: BoxFit.cover)),
+          image: DecorationImage(
+              image: AssetImage("assets/images/backV2.png"), fit: BoxFit.cover),
+        ),
         child: SafeArea(
           child: Scaffold(
             backgroundColor: Colors.transparent,
@@ -59,17 +59,17 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: const Column(
+                          child: Column(
                             children: [
-                               CircleAvatar(
-                                radius: Radius.circular(10),
+                              const CircleAvatar(
+                                // radius: Radius.circular(10),
                                 maxRadius: 50,
                                 backgroundImage:
                                     NetworkImage('assets/images/skasmi.jpeg'),
                               ),
                               Text(
                                 login,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 15,
                                     fontFamily: 'mytwo',
                                     fontWeight: FontWeight.bold,
@@ -85,14 +85,36 @@ class _ProfilePageState extends State<ProfilePage> {
                             Text(
                               fullName,
                               style: const TextStyle(
-                                  fontSize: 15, color: Colors.black),
+                                fontSize: 15,
+                                color: Colors.black,
+                                fontFamily: '_2',
+                                fontWeight: FontWeight.w100,
+                              ),
                             ),
                             const SizedBox(height: 10),
-                            Text('wallet: $wallet'),
+                            Text(
+                              'wallet: $wallet',
+                              style: const TextStyle(
+                                fontFamily: '_2',
+                                fontWeight: FontWeight.w100,
+                              ),
+                            ),
                             const SizedBox(height: 10),
-                            Text('email: $email'),
+                            Text(
+                              'email: $email',
+                              style: const TextStyle(
+                                fontFamily: '_2',
+                                fontWeight: FontWeight.w100,
+                              ),
+                            ),
                             const SizedBox(height: 10),
-                            Text('mobile: $mobile'),
+                            Text(
+                              'mobile: $mobile',
+                              style: const TextStyle(
+                                fontFamily: '_2',
+                                fontWeight: FontWeight.w100,
+                              ),
+                            ),
                             const SizedBox(height: 10),
                             SizedBox(
                               width: screenSize.width * 0.59,
