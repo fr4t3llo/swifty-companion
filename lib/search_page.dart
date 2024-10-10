@@ -55,7 +55,27 @@ class _SearchPageState extends State<SearchPage>
                   width: MediaQuery.sizeOf(context).width - 250,
                   height: 45, // Adjust the width as needed
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (context) => const SizedBox(
+                                height: 150,
+                                width: 150,
+                                child: Center(
+                                  child: SizedBox(
+                                    height: 50,
+                                    width: 50,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.yellow,
+                                    ),
+                                  ),
+                                ),
+                              ));
+                      await Future.delayed(Duration(seconds: 5), () {})
+                          .whenComplete(() {
+                        Navigator.pop(context);
+                      });
                       Navigator.push(
                         context,
                         MaterialPageRoute(
