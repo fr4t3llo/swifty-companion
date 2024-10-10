@@ -25,16 +25,14 @@ class _SearchPageState extends State<SearchPage>
               ),
             ),
           ),
-          Center( 
+          Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Image.asset('assets/images/logo42.png'),
-                const Text(
-                  'Swifty Companion',
-                  style: TextStyle(
-                      color: Colors.white, fontSize: 50, fontFamily: 'my'),
-                ),
+                const Text('Swifty Companion',
+                    style: TextStyle(
+                        color: Colors.white, fontSize: 50, fontFamily: 'my')),
                 const SizedBox(height: 40),
                 SizedBox(
                   width: MediaQuery.sizeOf(context).width - 200,

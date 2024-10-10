@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:swifty_companion/customWidgets/row.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -183,7 +184,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 backgroundColor: WidgetStatePropertyAll(
                               Colors.amber,
                             )),
-                            onPressed: () => _onButtonPressed(1),
+                            onPressed: () => _onButtonPressed(0),
                             label: const Text(
                               'Projects',
                               style: TextStyle(
@@ -203,7 +204,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 backgroundColor: WidgetStatePropertyAll(
                               Colors.amber,
                             )),
-                            onPressed: () => _onButtonPressed(0),
+                            onPressed: () => _onButtonPressed(1),
                             label: const Text(
                               'Skills',
                               style: TextStyle(
@@ -232,17 +233,164 @@ class _ProfilePageState extends State<ProfilePage> {
                         children: [
                           Container(
                             decoration: BoxDecoration(
-                              color: const Color.fromARGB(164, 255, 255, 255),
+                              color: const Color.fromARGB(255, 255, 255, 255),
                               borderRadius: BorderRadius.circular(5),
                             ),
-                            child: const Center(
-                              child: Text(
-                                'Skills Data',
-                                style: TextStyle(fontSize: 24),
+                            child: const SingleChildScrollView(
+                              child: Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    MyRow(
+                                      projectName: 'libft',
+                                      projectValue: '100%',
+                                      icon: Icon(Icons.check),
+                                      iconColor: Color(0xFF5cb85c),
+                                      textColor: Color(0xFF5cb85c),
+                                    ),
+                                    MyRow(
+                                      projectName: 'get_next_line',
+                                      projectValue: '125%',
+                                      icon: Icon(Icons.check),
+                                      iconColor: Color(0xFF5cb85c),
+                                      textColor: Color(0xFF5cb85c),
+                                    ),
+                                    MyRow(
+                                      projectName: 'ft_printf',
+                                      projectValue: '100%',
+                                      icon: Icon(Icons.check),
+                                      iconColor: Color(0xFF5cb85c),
+                                      textColor: Color(0xFF5cb85c),
+                                    ),
+                                    MyRow(
+                                      projectName: 'born2beroot',
+                                      projectValue: '125%',
+                                      icon: Icon(Icons.check),
+                                      iconColor: Color(0xFF5cb85c),
+                                      textColor: Color(0xFF5cb85c),
+                                    ),
+                                    MyRow(
+                                      projectName: 'inception',
+                                      projectValue: '0%',
+                                      icon: Icon(Icons.close),
+                                      iconColor: Color(0xFFD8636F),
+                                      textColor: Color(0xFFD8636F),
+                                    ),
+                                    MyRow(
+                                      projectName: 'minitalk',
+                                      projectValue: '125%',
+                                      icon: Icon(Icons.check),
+                                      iconColor: Color(0xFF5cb85c),
+                                      textColor: Color(0xFF5cb85c),
+                                    ),
+                                    MyRow(
+                                      projectName: 'so_long',
+                                      projectValue: '125%',
+                                      icon: Icon(Icons.check),
+                                      iconColor: Color(0xFF5cb85c),
+                                      textColor: Color(0xFF5cb85c),
+                                    ),
+                                    MyRow(
+                                      projectName: 'push_swap',
+                                      projectValue: '125%',
+                                      icon: Icon(Icons.check),
+                                      iconColor: Color(0xFF5cb85c),
+                                      textColor: Color(0xFF5cb85c),
+                                    ),
+                                    MyRow(
+                                      projectName: 'ExamRank02',
+                                      projectValue: '100%',
+                                      icon: Icon(Icons.check),
+                                      iconColor: Color(0xFF5cb85c),
+                                      textColor: Color(0xFF5cb85c),
+                                    ),
+                                    MyRow(
+                                      projectName: 'minishell',
+                                      projectValue: '101%',
+                                      icon: Icon(Icons.check),
+                                      iconColor: Color(0xFF5cb85c),
+                                      textColor: Color(0xFF5cb85c),
+                                    ),
+                                    MyRow(
+                                      projectName: 'philosophers',
+                                      projectValue: '125%',
+                                      icon: Icon(Icons.check),
+                                      iconColor: Color(0xFF5cb85c),
+                                      textColor: Color(0xFF5cb85c),
+                                    ),
+                                    MyRow(
+                                      projectName: 'ExamRank03',
+                                      projectValue: '100%',
+                                      icon: Icon(Icons.check),
+                                      iconColor: Color(0xFF5cb85c),
+                                      textColor: Color(0xFF5cb85c),
+                                    ),
+                                    MyRow(
+                                      projectName: 'cub3d',
+                                      projectValue: '105%',
+                                      icon: Icon(Icons.check),
+                                      iconColor: Color(0xFF5cb85c),
+                                      textColor: Color(0xFF5cb85c),
+                                    ),
+                                    MyRow(
+                                      projectName: 'NetPractice',
+                                      projectValue: '100%',
+                                      icon: Icon(Icons.check),
+                                      iconColor: Color(0xFF5cb85c),
+                                      textColor: Color(0xFF5cb85c),
+                                    ),
+                                    MyRow(
+                                      projectName: 'ExamRank04',
+                                      projectValue: '100%',
+                                      icon: Icon(Icons.check),
+                                      iconColor: Color(0xFF5cb85c),
+                                      textColor: Color(0xFF5cb85c),
+                                    ),
+                                    MyRow(
+                                      projectName: 'CPP Module 08',
+                                      projectValue: '100%',
+                                      icon: Icon(Icons.check),
+                                      iconColor: Color(0xFF5cb85c),
+                                      textColor: Color(0xFF5cb85c),
+                                    ),
+                                    MyRow(
+                                      projectName: 'CPP Module 09',
+                                      projectValue: '100%',
+                                      icon: Icon(Icons.check),
+                                      iconColor: Color(0xFF5cb85c),
+                                      textColor: Color(0xFF5cb85c),
+                                    ),
+                                    MyRow(
+                                      projectName: 'webserv',
+                                      projectValue: '125%',
+                                      icon: Icon(Icons.check),
+                                      iconColor: Color(0xFF5cb85c),
+                                      textColor: Color(0xFF5cb85c),
+                                    ),
+                                    MyRow(
+                                      projectName: 'ft_transcendence',
+                                      projectValue: '100%',
+                                      icon: Icon(Icons.check),
+                                      iconColor: Color(0xFF5cb85c),
+                                      textColor: Color(0xFF5cb85c),
+                                    ),
+                                    MyRow(
+                                      projectName: 'swifty-companion',
+                                      projectValue: 'in_progress',
+                                      icon: Icon(
+                                        Iconsax.timer,
+                                        size: 14,
+                                      ),
+                                      iconColor:
+                                          Color.fromARGB(255, 255, 170, 22),
+                                      textColor:
+                                          Color.fromARGB(255, 255, 170, 22),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                          // Projects container
                           Container(
                             decoration: BoxDecoration(
                               color: const Color.fromARGB(164, 255, 255, 255),
