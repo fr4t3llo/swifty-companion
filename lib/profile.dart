@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:swifty_companion/customWidgets/row.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -12,7 +13,6 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   late PageController _pageController;
-  int _currentIndex = 0;
 
   @override
   void initState() {
@@ -22,7 +22,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void _onButtonPressed(int index) {
     setState(() {
-      _currentIndex = index;
       _pageController.jumpToPage(index);
     });
   }
@@ -35,13 +34,24 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+
+final List<ChartData> chartData = [
+            ChartData('Steve',  60),
+            ChartData('Jack',   50),
+            ChartData('Others', 80),
+            ChartData('saife',  39),
+            ChartData('David',  90),
+            ChartData('David',  54),
+            ChartData('David',  66),
+        ];
+
     final screenSize = MediaQuery.sizeOf(context);
-    final String level = '14.05';
-    final String login = 'skasmi';
-    final String fullName = 'saifeddine kasmi';
-    final String wallet = '1400 ₳';
-    final String email = 'skasmi@student.1337.ma';
-    final String mobile = '+212661189840';
+    const String level = '14.05';
+    const String login = 'skasmi';
+    const String fullName = 'saifeddine kasmi';
+    const String wallet = '1400 ₳';
+    const String email = 'skasmi@student.1337.ma';
+    const String mobile = '+212661189840';
 
     return MaterialApp(
       home: Container(
@@ -81,11 +91,11 @@ class _ProfilePageState extends State<ProfilePage> {
                         borderRadius: BorderRadius.circular(5)),
                     child: Row(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
                           child: Column(
                             children: [
-                              const CircleAvatar(
+                              CircleAvatar(
                                 radius: 53,
                                 backgroundColor: Color(0xFF2B8BA1),
                                 child: CircleAvatar(
@@ -96,7 +106,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                               Text(
                                 login,
-                                style: const TextStyle(
+                                style: TextStyle(
                                     fontSize: 15,
                                     fontFamily: 'mytwo',
                                     fontWeight: FontWeight.bold,
@@ -109,9 +119,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Text(
+                            const Text(
                               fullName,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 15,
                                 color: Colors.black,
                                 fontFamily: '_2',
@@ -119,25 +129,25 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             ),
                             const SizedBox(height: 10),
-                            Text(
+                            const Text(
                               'wallet: $wallet',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontFamily: '_2',
                                 fontWeight: FontWeight.w100,
                               ),
                             ),
                             const SizedBox(height: 10),
-                            Text(
+                            const Text(
                               'email: $email',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontFamily: '_2',
                                 fontWeight: FontWeight.w100,
                               ),
                             ),
                             const SizedBox(height: 10),
-                            Text(
+                            const Text(
                               'mobile: $mobile',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontFamily: '_2',
                                 fontWeight: FontWeight.w100,
                               ),
@@ -151,9 +161,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                 animationDuration: 2000,
                                 percent: 0.5,
                                 barRadius: const Radius.circular(3),
-                                center: Text(
+                                center: const Text(
                                   "Level  $level% ",
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                       fontFamily: 'mytwo',
                                       fontWeight: FontWeight.bold,
                                       fontSize: 12),
@@ -216,10 +226,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ],
                       ),
-                      // Indicator line
                     ],
                   ),
-                  // Swipable container
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
@@ -227,7 +235,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         controller: _pageController,
                         onPageChanged: (index) {
                           setState(() {
-                            _currentIndex = index;
                           });
                         },
                         children: [
@@ -396,10 +403,23 @@ class _ProfilePageState extends State<ProfilePage> {
                               color: const Color.fromARGB(164, 255, 255, 255),
                               borderRadius: BorderRadius.circular(5),
                             ),
-                            child: const Center(
-                              child: Text(
-                                'Projects Data',
-                                style: TextStyle(fontSize: 24),
+                            child:  Center(
+                              child: SfCircularChart(
+                            title: const ChartTitle(text: 'charts of skills', textStyle: TextStyle(color: Colors.black,fontFamily: 'mytwo', fontWeight: FontWeight.bold,)),    
+                        series: <CircularSeries>[
+                            // Renders radial bar chart
+                            RadialBarSeries<ChartData, String>(
+                                cornerStyle: CornerStyle.bothCurve,
+                                useSeriesColor: true,
+                                dataLabelSettings: const DataLabelSettings(isVisible: true, textStyle: TextStyle(fontFamily: 'mytwo', fontSize: 10)),
+                                trackOpacity: 0.1,
+                                gap: '4%',
+                                
+                                dataSource: chartData,
+                                xValueMapper: (ChartData data, _) => data.x,
+                                yValueMapper: (ChartData data, _) => data.y
+                            )
+                        ]
                               ),
                             ),
                           ),
@@ -415,4 +435,11 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
+  
 }
+
+  class ChartData {
+      ChartData(this.x, this.y);
+        final String x;
+        final double y;
+    }

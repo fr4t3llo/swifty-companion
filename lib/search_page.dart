@@ -72,11 +72,13 @@ class _SearchPageState extends State<SearchPage>
                                   ),
                                 ),
                               ));
-                      await Future.delayed(Duration(seconds: 5), () {})
+                      await Future.delayed(const Duration(seconds: 5), () {})
                           .whenComplete(() {
+                        // ignore: use_build_context_synchronously
                         Navigator.pop(context);
                       });
                       Navigator.push(
+                        // ignore: use_build_context_synchronously
                         context,
                         MaterialPageRoute(
                           builder: (context) => const ProfilePage(),
