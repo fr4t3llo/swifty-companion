@@ -35,6 +35,7 @@ class _SearchPageState extends State<SearchPage>
                         color: Colors.white, fontSize: 50, fontFamily: 'my')),
                 const SizedBox(height: 40),
                 SizedBox(
+
                   width: MediaQuery.sizeOf(context).width - 200,
                   child: TextField(
                     cursorColor: Colors.black,

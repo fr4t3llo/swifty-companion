@@ -1,8 +1,14 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:swifty_companion/customWidgets/row.dart';
+
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -13,12 +19,29 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   late PageController _pageController;
+  late StreamSubscription subscription;
+  var isDeviceConnected = false;
+  bool isAlertSet = false;
 
   @override
   void initState() {
     super.initState();
+    getConnectivity();
     _pageController = PageController();
   }
+
+ getConnectivity() {
+      subscription = Connectivity().onConnectivityChanged.listen(
+        (ConnectivityResult result) async { 
+        isDeviceConnected = await InternetConnectionChecker().hasConnection;
+        if (isDeviceConnected && isAlertSet == false) {
+          showDialogBox();
+          setState(() {
+            isAlertSet = true;
+          });
+        }
+      },);
+    }
 
   void _onButtonPressed(int index) {
     setState(() {
@@ -29,6 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void dispose() {
     _pageController.dispose();
+    subscription.cancel();
     super.dispose();
   }
 
@@ -47,12 +71,9 @@ final List<ChartData> chartData = [
 
     final screenSize = MediaQuery.sizeOf(context);
     const String level = '14.05';
-    const String login = 'skasmi';
-    const String fullName = 'saifeddine kasmi';
+    const String fullName = 'SAIFEDDINE KASMI';
     const String wallet = '1400 ₳';
     const String email = 'skasmi@student.1337.ma';
-    const String mobile = '+212661189840';
-
     return MaterialApp(
       home: Container(
         decoration: const BoxDecoration(
@@ -93,86 +114,78 @@ final List<ChartData> chartData = [
                       children: [
                         const Padding(
                           padding: EdgeInsets.all(8.0),
+                          child: CircleAvatar(
+
+                            radius: 53,
+                            backgroundColor: Color(0xFF2B8BA1),
+                            child: CircleAvatar(
+                              maxRadius: 50,
+                              backgroundImage:
+                                  NetworkImage('assets/images/skasmi.jpeg'),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              CircleAvatar(
-                                radius: 53,
-                                backgroundColor: Color(0xFF2B8BA1),
-                                child: CircleAvatar(
-                                  maxRadius: 50,
-                                  backgroundImage:
-                                      NetworkImage('assets/images/skasmi.jpeg'),
+                              const Text(
+                                fullName,
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.black,
+                                  fontFamily: 'mytwo',
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Text(
-                                login,
+                              const SizedBox(height: 10),
+                              const Text(
+                                'wallet : $wallet',
                                 style: TextStyle(
-                                    fontSize: 15,
-                                    fontFamily: 'mytwo',
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black),
+                                  fontFamily: 'mytwo',
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              const Text(
+                                'email : $email',
+                                style: TextStyle(
+                                  fontFamily: 'mytwo',
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              // const Text(
+                              //   'mobile : $mobile',
+                              //   style: TextStyle(
+                              //     fontFamily: 'mytwo',
+                              //     fontWeight: FontWeight.w100,
+                              //   ),
+                              // ),
+                              const SizedBox(height: 10),
+                              SizedBox(
+                                width: screenSize.width * 60 / 100,
+                                child: LinearPercentIndicator(
+                                  animation: true,
+                                  lineHeight: 18.0,
+                                  animationDuration: 2000,
+                                  percent: 0.5,
+                                  barRadius: const Radius.circular(3),
+                                  center: const Text(
+                                    "Level  $level% ",
+                                    style: TextStyle(
+                                        fontFamily: 'mytwo',
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12),
+                                  ),
+                                  progressColor:
+                                      const Color.fromARGB(255, 245, 189, 57),
+                                ),
                               ),
                             ],
                           ),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            const Text(
-                              fullName,
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-                                fontFamily: '_2',
-                                fontWeight: FontWeight.w100,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            const Text(
-                              'wallet: $wallet',
-                              style: TextStyle(
-                                fontFamily: '_2',
-                                fontWeight: FontWeight.w100,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            const Text(
-                              'email: $email',
-                              style: TextStyle(
-                                fontFamily: '_2',
-                                fontWeight: FontWeight.w100,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            const Text(
-                              'mobile: $mobile',
-                              style: TextStyle(
-                                fontFamily: '_2',
-                                fontWeight: FontWeight.w100,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            SizedBox(
-                              width: screenSize.width * 60 / 100,
-                              child: LinearPercentIndicator(
-                                animation: true,
-                                lineHeight: 18.0,
-                                animationDuration: 2000,
-                                percent: 0.5,
-                                barRadius: const Radius.circular(3),
-                                center: const Text(
-                                  "Level  $level% ",
-                                  style: TextStyle(
-                                      fontFamily: 'mytwo',
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12),
-                                ),
-                                progressColor:
-                                    const Color.fromARGB(255, 245, 189, 57),
-                              ),
-                            ),
-                          ],
                         )
                       ],
                     ),
@@ -435,11 +448,35 @@ final List<ChartData> chartData = [
       ),
     );
   }
-  
+
+  void showDialogBox() {
+    showCupertinoDialog<String>(
+      context: context,
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        title: const Text(
+          'No Connection',
+          style: TextStyle(fontFamily: 'mytwo'),
+        ),
+        content: const Text('Please check your internet connectivity'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context, 'Ok'); // No need for async here
+            },
+            child: const Text(
+              'Ok',
+              style: TextStyle(fontFamily: 'mytwo'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
-  class ChartData {
-      ChartData(this.x, this.y);
-        final String x;
-        final double y;
-    }
+
+class ChartData {
+    ChartData(this.x, this.y);
+      final String x;
+      final double y;
+  }

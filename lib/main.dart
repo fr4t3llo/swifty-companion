@@ -49,7 +49,7 @@ class _AuthPageState extends State<AuthPage> {
     _textFieldController.dispose();
     super.dispose();
   }
-
+  
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.sizeOf(context);
