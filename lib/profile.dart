@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:swifty_companion/search_page.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:swifty_companion/customWidgets/row.dart';
 
@@ -99,7 +100,13 @@ final List<ChartData> chartData = [
                     Icons.arrow_back,
                     color: Colors.black,
                   ),
-                  onPressed: () {}),
+                  onPressed: () {  
+                    debugPrint("hanaaaa=-=-==-=-=-=-=");
+                   Navigator.push(                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SearchPage(),
+                        ),
+                      );}),
             ),
             body: Center(
               child: Column(
