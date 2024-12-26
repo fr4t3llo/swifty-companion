@@ -10,7 +10,6 @@ import 'package:swifty_companion/search_page.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:swifty_companion/customWidgets/row.dart';
 
-
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -31,9 +30,9 @@ class _ProfilePageState extends State<ProfilePage> {
     _pageController = PageController();
   }
 
- getConnectivity() {
-      subscription = Connectivity().onConnectivityChanged.listen(
-        (ConnectivityResult result) async { 
+  getConnectivity() {
+    subscription = Connectivity().onConnectivityChanged.listen(
+      (ConnectivityResult result) async {
         isDeviceConnected = await InternetConnectionChecker().hasConnection;
         if (isDeviceConnected && isAlertSet == false) {
           showDialogBox();
@@ -41,8 +40,9 @@ class _ProfilePageState extends State<ProfilePage> {
             isAlertSet = true;
           });
         }
-      },);
-    }
+      },
+    );
+  }
 
   void _onButtonPressed(int index) {
     setState(() {
@@ -59,32 +59,41 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-
-final List<ChartData> chartData = [
-            ChartData('Steve',  60),
-            ChartData('Jack',   50),
-            ChartData('Others', 80),
-            ChartData('saife',  39),
-            ChartData('David',  90),
-            ChartData('David',  54),
-            ChartData('David',  66),
-        ];
+    final List<ChartData> chartData = [
+      ChartData('Steve', 60),
+      ChartData('Jack', 50),
+      ChartData('Others', 80),
+      ChartData('saife', 39),
+      ChartData('David', 90),
+      ChartData('David', 54),
+      ChartData('David', 66),
+    ];
 
     final screenSize = MediaQuery.sizeOf(context);
     const String level = '14.05';
     const String fullName = 'SAIFEDDINE KASMI';
-    const String wallet = '1400 ₳';
+    const String wallet = '1 850 ₳';
     const String email = 'skasmi@student.1337.ma';
     return MaterialApp(
       home: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage("assets/images/backV2.png"), fit: BoxFit.cover),
+            image: AssetImage("assets/images/backV2.png"),
+            fit: BoxFit.cover,
+          ),
         ),
         child: SafeArea(
           child: Scaffold(
             backgroundColor: Colors.transparent,
             appBar: AppBar(
+              actions: [
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Iconsax.logout_1,
+                      color: Colors.black,
+                    ))
+              ],
               elevation: 0,
               backgroundColor: Colors.transparent,
               title: const Text(
@@ -100,13 +109,15 @@ final List<ChartData> chartData = [
                     Icons.arrow_back,
                     color: Colors.black,
                   ),
-                  onPressed: () {  
+                  onPressed: () {
                     debugPrint("hanaaaa=-=-==-=-=-=-=");
-                   Navigator.push(                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SearchPage(),
-                        ),
-                      );}),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SearchPage(),
+                      ),
+                    );
+                  }),
             ),
             body: Center(
               child: Column(
@@ -122,7 +133,6 @@ final List<ChartData> chartData = [
                         const Padding(
                           padding: EdgeInsets.all(8.0),
                           child: CircleAvatar(
-
                             radius: 53,
                             backgroundColor: Color(0xFF2B8BA1),
                             child: CircleAvatar(
@@ -254,8 +264,7 @@ final List<ChartData> chartData = [
                       child: PageView(
                         controller: _pageController,
                         onPageChanged: (index) {
-                          setState(() {
-                          });
+                          setState(() {});
                         },
                         children: [
                           Container(
@@ -423,24 +432,34 @@ final List<ChartData> chartData = [
                               color: const Color.fromARGB(164, 255, 255, 255),
                               borderRadius: BorderRadius.circular(5),
                             ),
-                            child:  Center(
+                            child: Center(
                               child: SfCircularChart(
-                            title: const ChartTitle(text: 'charts of skills', textStyle: TextStyle(color: Colors.black,fontFamily: 'mytwo', fontWeight: FontWeight.bold,)),    
-                        series: <CircularSeries>[
-                            // Renders radial bar chart
-                            RadialBarSeries<ChartData, String>(
-                                cornerStyle: CornerStyle.bothCurve,
-                                useSeriesColor: true,
-                                dataLabelSettings: const DataLabelSettings(isVisible: true, textStyle: TextStyle(fontFamily: 'mytwo', fontSize: 10)),
-                                trackOpacity: 0.1,
-                                gap: '4%',
-                                
-                                dataSource: chartData,
-                                xValueMapper: (ChartData data, _) => data.x,
-                                yValueMapper: (ChartData data, _) => data.y
-                            )
-                        ]
-                              ),
+                                  title: const ChartTitle(
+                                      text: 'charts of skills',
+                                      textStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: 'mytwo',
+                                        fontWeight: FontWeight.bold,
+                                      )),
+                                  series: <CircularSeries>[
+                                    // Renders radial bar chart
+                                    RadialBarSeries<ChartData, String>(
+                                        cornerStyle: CornerStyle.bothCurve,
+                                        useSeriesColor: true,
+                                        dataLabelSettings:
+                                            const DataLabelSettings(
+                                                isVisible: true,
+                                                textStyle: TextStyle(
+                                                    fontFamily: 'mytwo',
+                                                    fontSize: 10)),
+                                        trackOpacity: 0.1,
+                                        gap: '4%',
+                                        dataSource: chartData,
+                                        xValueMapper: (ChartData data, _) =>
+                                            data.x,
+                                        yValueMapper: (ChartData data, _) =>
+                                            data.y)
+                                  ]),
                             ),
                           ),
                         ],
@@ -481,9 +500,8 @@ final List<ChartData> chartData = [
   }
 }
 
-
 class ChartData {
-    ChartData(this.x, this.y);
-      final String x;
-      final double y;
-  }
+  ChartData(this.x, this.y);
+  final String x;
+  final double y;
+}

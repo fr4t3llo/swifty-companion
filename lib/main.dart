@@ -1,10 +1,15 @@
 // ignore_for_file: unused_import
 
+
+
+
+
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:swifty_companion/profile.dart';
 import 'search_page.dart';
 import 'package:device_preview_plus/device_preview_plus.dart';
+import 'api/auth.dart';
 
 void main() => runApp(
       DevicePreview(
@@ -49,7 +54,7 @@ class _AuthPageState extends State<AuthPage> {
     _textFieldController.dispose();
     super.dispose();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.sizeOf(context);
@@ -79,12 +84,14 @@ class _AuthPageState extends State<AuthPage> {
                   height: 45,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SearchPage(),
-                        ),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => const SearchPage(),
+                      //   ),
+                      // );
+
+                      authenticateUser();
                     },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 10.0),
