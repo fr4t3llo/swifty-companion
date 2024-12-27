@@ -1,9 +1,5 @@
 // ignore_for_file: unused_import
 
-
-
-
-
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:swifty_companion/profile.dart';

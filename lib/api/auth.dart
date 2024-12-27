@@ -6,11 +6,12 @@ import 'package:oauth2/oauth2.dart' as oauth2;
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
+import 'package:flutter/services.dart' show rootBundle;
+
 // Function to read credentials from JSON file
 Future<Map<String, dynamic>> getCredentials() async {
-  final File credentialsFile = File('../../credentials.json');
-  final String contents = await credentialsFile.readAsString();
-  return json.decode(contents);
+  final String jsonString = await rootBundle.loadString('credentials.json');
+  return json.decode(jsonString);
 }
 
 Future<void> redirect(Uri url) async {
