@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
       home: const AuthPage(),
     );
   }
+  
 }
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
