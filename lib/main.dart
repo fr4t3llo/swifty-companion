@@ -7,12 +7,9 @@ import 'search_page.dart';
 import 'package:device_preview_plus/device_preview_plus.dart';
 import 'api/auth.dart';
 
-void main() => runApp(
-      DevicePreview(
-        enabled: false,
-        builder: (context) => const MyApp(),
-      ),
-    );
+void main() {
+  runApp(const ProfilePage());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -28,6 +25,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
 
@@ -79,12 +77,12 @@ class _AuthPageState extends State<AuthPage> {
                   height: 45,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => const SearchPage(),
-                      //   ),
-                      // );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SearchPage(),
+                        ),
+                      );
 
                       authenticateUser();
                     },

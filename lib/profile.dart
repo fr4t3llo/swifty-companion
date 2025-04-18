@@ -34,7 +34,7 @@ class _ProfilePageState extends State<ProfilePage> {
     subscription = Connectivity().onConnectivityChanged.listen(
       (ConnectivityResult result) async {
         isDeviceConnected = await InternetConnectionChecker().hasConnection;
-        if (isDeviceConnected && isAlertSet == false) {
+        if (!isDeviceConnected && !isAlertSet) {
           showDialogBox();
           setState(() {
             isAlertSet = true;
@@ -74,400 +74,399 @@ class _ProfilePageState extends State<ProfilePage> {
     const String fullName = 'SAIFEDDINE KASMI';
     const String wallet = '1 850 ₳';
     const String email = 'skasmi@student.1337.ma';
-    return MaterialApp(
-      home: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/backV2.png"),
-            fit: BoxFit.cover,
-          ),
+
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/images/backV2.png"),
+          fit: BoxFit.cover,
         ),
-        child: SafeArea(
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            appBar: AppBar(
-              actions: [
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Iconsax.logout_1,
-                      color: Colors.black,
-                    ))
-              ],
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-              title: const Text(
-                'Profile',
-                style: TextStyle(
-                    fontFamily: 'mytwo',
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold),
-              ),
-              centerTitle: true,
-              leading: IconButton(
+      ),
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            actions: [
+              IconButton(
+                  onPressed: () {},
                   icon: const Icon(
-                    Icons.arrow_back,
+                    Iconsax.logout_1,
                     color: Colors.black,
-                  ),
-                  onPressed: () {
-                    debugPrint("hanaaaa=-=-==-=-=-=-=");
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SearchPage(),
-                      ),
-                    );
-                  }),
+                  ))
+            ],
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            title: const Text(
+              'Profile',
+              style: TextStyle(
+                  fontFamily: 'mytwo',
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold),
             ),
-            body: Center(
-              child: Column(
-                children: [
-                  Container(
-                    height: 150,
-                    width: screenSize.width * 95 / 100,
-                    decoration: BoxDecoration(
-                        color: const Color.fromARGB(164, 255, 255, 255),
-                        borderRadius: BorderRadius.circular(5)),
-                    child: Row(
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.all(8.0),
+            centerTitle: true,
+            leading: IconButton(
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  debugPrint("hanaaaa=-=-==-=-=-=-=");
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SearchPage(),
+                    ),
+                  );
+                }),
+          ),
+          body: Center(
+            child: Column(
+              children: [
+                Container(
+                  height: 150,
+                  width: screenSize.width * 95 / 100,
+                  decoration: BoxDecoration(
+                      color: const Color.fromARGB(164, 255, 255, 255),
+                      borderRadius: BorderRadius.circular(5)),
+                  child: Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: CircleAvatar(
+                          radius: 53,
+                          backgroundColor: Color(0xFF2B8BA1),
                           child: CircleAvatar(
-                            radius: 53,
-                            backgroundColor: Color(0xFF2B8BA1),
-                            child: CircleAvatar(
-                              maxRadius: 50,
-                              backgroundImage:
-                                  NetworkImage('assets/images/skasmi.jpeg'),
+                            maxRadius: 50,
+                            // backgroundImage:
+                            // AssetImage('assets/images/skasmi.jpeg'),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            const Text(
+                              fullName,
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.black,
+                                fontFamily: 'mytwo',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            const Text(
+                              'wallet : $wallet',
+                              style: TextStyle(
+                                fontFamily: 'mytwo',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            const Text(
+                              'email : $email',
+                              style: TextStyle(
+                                fontFamily: 'mytwo',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            // const Text(
+                            //   'mobile : $mobile',
+                            //   style: TextStyle(
+                            //     fontFamily: 'mytwo',
+                            //     fontWeight: FontWeight.w100,
+                            //   ),
+                            // ),
+                            const SizedBox(height: 10),
+                            SizedBox(
+                              width: screenSize.width * 60 / 100,
+                              child: LinearPercentIndicator(
+                                animation: true,
+                                lineHeight: 18.0,
+                                animationDuration: 2000,
+                                percent: 0.5,
+                                barRadius: const Radius.circular(3),
+                                center: const Text(
+                                  "Level  $level% ",
+                                  style: TextStyle(
+                                      fontFamily: 'mytwo',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12),
+                                ),
+                                progressColor:
+                                    const Color.fromARGB(255, 245, 189, 57),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        ElevatedButton.icon(
+                          icon: const Icon(
+                            Iconsax.d_cube_scan,
+                            color: Colors.black,
+                            size: 20,
+                          ),
+                          style: const ButtonStyle(
+                              backgroundColor: WidgetStatePropertyAll(
+                            Colors.amber,
+                          )),
+                          onPressed: () => _onButtonPressed(0),
+                          label: const Text(
+                            'Projects',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: 'mytwo',
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              const Text(
-                                fullName,
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.black,
-                                  fontFamily: 'mytwo',
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              const Text(
-                                'wallet : $wallet',
-                                style: TextStyle(
-                                  fontFamily: 'mytwo',
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              const Text(
-                                'email : $email',
-                                style: TextStyle(
-                                  fontFamily: 'mytwo',
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              // const Text(
-                              //   'mobile : $mobile',
-                              //   style: TextStyle(
-                              //     fontFamily: 'mytwo',
-                              //     fontWeight: FontWeight.w100,
-                              //   ),
-                              // ),
-                              const SizedBox(height: 10),
-                              SizedBox(
-                                width: screenSize.width * 60 / 100,
-                                child: LinearPercentIndicator(
-                                  animation: true,
-                                  lineHeight: 18.0,
-                                  animationDuration: 2000,
-                                  percent: 0.5,
-                                  barRadius: const Radius.circular(3),
-                                  center: const Text(
-                                    "Level  $level% ",
-                                    style: TextStyle(
-                                        fontFamily: 'mytwo',
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 12),
-                                  ),
-                                  progressColor:
-                                      const Color.fromARGB(255, 245, 189, 57),
-                                ),
-                              ),
-                            ],
+                        ElevatedButton.icon(
+                          icon: const Icon(
+                            Iconsax.keyboard,
+                            color: Colors.black,
+                            size: 20,
                           ),
-                        )
+                          style: const ButtonStyle(
+                              backgroundColor: WidgetStatePropertyAll(
+                            Colors.amber,
+                          )),
+                          onPressed: () => _onButtonPressed(1),
+                          label: const Text(
+                            'Skills',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: 'mytwo',
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: PageView(
+                      controller: _pageController,
+                      onPageChanged: (index) {
+                        setState(() {});
+                      },
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 255, 255, 255),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: const SingleChildScrollView(
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  MyRow(
+                                    projectName: 'libft',
+                                    projectValue: '100%',
+                                    icon: Icon(Icons.check),
+                                    iconColor: Color(0xFF5cb85c),
+                                    textColor: Color(0xFF5cb85c),
+                                  ),
+                                  MyRow(
+                                    projectName: 'get_next_line',
+                                    projectValue: '125%',
+                                    icon: Icon(Icons.check),
+                                    iconColor: Color(0xFF5cb85c),
+                                    textColor: Color(0xFF5cb85c),
+                                  ),
+                                  MyRow(
+                                    projectName: 'ft_printf',
+                                    projectValue: '100%',
+                                    icon: Icon(Icons.check),
+                                    iconColor: Color(0xFF5cb85c),
+                                    textColor: Color(0xFF5cb85c),
+                                  ),
+                                  MyRow(
+                                    projectName: 'born2beroot',
+                                    projectValue: '125%',
+                                    icon: Icon(Icons.check),
+                                    iconColor: Color(0xFF5cb85c),
+                                    textColor: Color(0xFF5cb85c),
+                                  ),
+                                  MyRow(
+                                    projectName: 'inception',
+                                    projectValue: '0%',
+                                    icon: Icon(Icons.close),
+                                    iconColor: Color(0xFFD8636F),
+                                    textColor: Color(0xFFD8636F),
+                                  ),
+                                  MyRow(
+                                    projectName: 'minitalk',
+                                    projectValue: '125%',
+                                    icon: Icon(Icons.check),
+                                    iconColor: Color(0xFF5cb85c),
+                                    textColor: Color(0xFF5cb85c),
+                                  ),
+                                  MyRow(
+                                    projectName: 'so_long',
+                                    projectValue: '125%',
+                                    icon: Icon(Icons.check),
+                                    iconColor: Color(0xFF5cb85c),
+                                    textColor: Color(0xFF5cb85c),
+                                  ),
+                                  MyRow(
+                                    projectName: 'push_swap',
+                                    projectValue: '125%',
+                                    icon: Icon(Icons.check),
+                                    iconColor: Color(0xFF5cb85c),
+                                    textColor: Color(0xFF5cb85c),
+                                  ),
+                                  MyRow(
+                                    projectName: 'ExamRank02',
+                                    projectValue: '100%',
+                                    icon: Icon(Icons.check),
+                                    iconColor: Color(0xFF5cb85c),
+                                    textColor: Color(0xFF5cb85c),
+                                  ),
+                                  MyRow(
+                                    projectName: 'minishell',
+                                    projectValue: '101%',
+                                    icon: Icon(Icons.check),
+                                    iconColor: Color(0xFF5cb85c),
+                                    textColor: Color(0xFF5cb85c),
+                                  ),
+                                  MyRow(
+                                    projectName: 'philosophers',
+                                    projectValue: '125%',
+                                    icon: Icon(Icons.check),
+                                    iconColor: Color(0xFF5cb85c),
+                                    textColor: Color(0xFF5cb85c),
+                                  ),
+                                  MyRow(
+                                    projectName: 'ExamRank03',
+                                    projectValue: '100%',
+                                    icon: Icon(Icons.check),
+                                    iconColor: Color(0xFF5cb85c),
+                                    textColor: Color(0xFF5cb85c),
+                                  ),
+                                  MyRow(
+                                    projectName: 'cub3d',
+                                    projectValue: '105%',
+                                    icon: Icon(Icons.check),
+                                    iconColor: Color(0xFF5cb85c),
+                                    textColor: Color(0xFF5cb85c),
+                                  ),
+                                  MyRow(
+                                    projectName: 'NetPractice',
+                                    projectValue: '100%',
+                                    icon: Icon(Icons.check),
+                                    iconColor: Color(0xFF5cb85c),
+                                    textColor: Color(0xFF5cb85c),
+                                  ),
+                                  MyRow(
+                                    projectName: 'ExamRank04',
+                                    projectValue: '100%',
+                                    icon: Icon(Icons.check),
+                                    iconColor: Color(0xFF5cb85c),
+                                    textColor: Color(0xFF5cb85c),
+                                  ),
+                                  MyRow(
+                                    projectName: 'CPP Module 08',
+                                    projectValue: '100%',
+                                    icon: Icon(Icons.check),
+                                    iconColor: Color(0xFF5cb85c),
+                                    textColor: Color(0xFF5cb85c),
+                                  ),
+                                  MyRow(
+                                    projectName: 'CPP Module 09',
+                                    projectValue: '100%',
+                                    icon: Icon(Icons.check),
+                                    iconColor: Color(0xFF5cb85c),
+                                    textColor: Color(0xFF5cb85c),
+                                  ),
+                                  MyRow(
+                                    projectName: 'webserv',
+                                    projectValue: '125%',
+                                    icon: Icon(Icons.check),
+                                    iconColor: Color(0xFF5cb85c),
+                                    textColor: Color(0xFF5cb85c),
+                                  ),
+                                  MyRow(
+                                    projectName: 'ft_transcendence',
+                                    projectValue: '100%',
+                                    icon: Icon(Icons.check),
+                                    iconColor: Color(0xFF5cb85c),
+                                    textColor: Color(0xFF5cb85c),
+                                  ),
+                                  MyRow(
+                                    projectName: 'swifty-companion',
+                                    projectValue: 'in_progress',
+                                    icon: Icon(
+                                      Iconsax.timer,
+                                      size: 14,
+                                    ),
+                                    iconColor:
+                                        Color.fromARGB(255, 255, 170, 22),
+                                    textColor:
+                                        Color.fromARGB(255, 255, 170, 22),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(164, 255, 255, 255),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Center(
+                            child: SfCircularChart(
+                                title: const ChartTitle(
+                                    text: 'charts of skills',
+                                    textStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontFamily: 'mytwo',
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                                series: <CircularSeries>[
+                                  // Renders radial bar chart
+                                  RadialBarSeries<ChartData, String>(
+                                      cornerStyle: CornerStyle.bothCurve,
+                                      useSeriesColor: true,
+                                      dataLabelSettings:
+                                          const DataLabelSettings(
+                                              isVisible: true,
+                                              textStyle: TextStyle(
+                                                  fontFamily: 'mytwo',
+                                                  fontSize: 10)),
+                                      trackOpacity: 0.1,
+                                      gap: '4%',
+                                      dataSource: chartData,
+                                      xValueMapper: (ChartData data, _) =>
+                                          data.x,
+                                      yValueMapper: (ChartData data, _) =>
+                                          data.y)
+                                ]),
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          ElevatedButton.icon(
-                            icon: const Icon(
-                              Iconsax.d_cube_scan,
-                              color: Colors.black,
-                              size: 20,
-                            ),
-                            style: const ButtonStyle(
-                                backgroundColor: WidgetStatePropertyAll(
-                              Colors.amber,
-                            )),
-                            onPressed: () => _onButtonPressed(0),
-                            label: const Text(
-                              'Projects',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: 'mytwo',
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          ElevatedButton.icon(
-                            icon: const Icon(
-                              Iconsax.keyboard,
-                              color: Colors.black,
-                              size: 20,
-                            ),
-                            style: const ButtonStyle(
-                                backgroundColor: WidgetStatePropertyAll(
-                              Colors.amber,
-                            )),
-                            onPressed: () => _onButtonPressed(1),
-                            label: const Text(
-                              'Skills',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: 'mytwo',
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: PageView(
-                        controller: _pageController,
-                        onPageChanged: (index) {
-                          setState(() {});
-                        },
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 255, 255, 255),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: const SingleChildScrollView(
-                              child: Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    MyRow(
-                                      projectName: 'libft',
-                                      projectValue: '100%',
-                                      icon: Icon(Icons.check),
-                                      iconColor: Color(0xFF5cb85c),
-                                      textColor: Color(0xFF5cb85c),
-                                    ),
-                                    MyRow(
-                                      projectName: 'get_next_line',
-                                      projectValue: '125%',
-                                      icon: Icon(Icons.check),
-                                      iconColor: Color(0xFF5cb85c),
-                                      textColor: Color(0xFF5cb85c),
-                                    ),
-                                    MyRow(
-                                      projectName: 'ft_printf',
-                                      projectValue: '100%',
-                                      icon: Icon(Icons.check),
-                                      iconColor: Color(0xFF5cb85c),
-                                      textColor: Color(0xFF5cb85c),
-                                    ),
-                                    MyRow(
-                                      projectName: 'born2beroot',
-                                      projectValue: '125%',
-                                      icon: Icon(Icons.check),
-                                      iconColor: Color(0xFF5cb85c),
-                                      textColor: Color(0xFF5cb85c),
-                                    ),
-                                    MyRow(
-                                      projectName: 'inception',
-                                      projectValue: '0%',
-                                      icon: Icon(Icons.close),
-                                      iconColor: Color(0xFFD8636F),
-                                      textColor: Color(0xFFD8636F),
-                                    ),
-                                    MyRow(
-                                      projectName: 'minitalk',
-                                      projectValue: '125%',
-                                      icon: Icon(Icons.check),
-                                      iconColor: Color(0xFF5cb85c),
-                                      textColor: Color(0xFF5cb85c),
-                                    ),
-                                    MyRow(
-                                      projectName: 'so_long',
-                                      projectValue: '125%',
-                                      icon: Icon(Icons.check),
-                                      iconColor: Color(0xFF5cb85c),
-                                      textColor: Color(0xFF5cb85c),
-                                    ),
-                                    MyRow(
-                                      projectName: 'push_swap',
-                                      projectValue: '125%',
-                                      icon: Icon(Icons.check),
-                                      iconColor: Color(0xFF5cb85c),
-                                      textColor: Color(0xFF5cb85c),
-                                    ),
-                                    MyRow(
-                                      projectName: 'ExamRank02',
-                                      projectValue: '100%',
-                                      icon: Icon(Icons.check),
-                                      iconColor: Color(0xFF5cb85c),
-                                      textColor: Color(0xFF5cb85c),
-                                    ),
-                                    MyRow(
-                                      projectName: 'minishell',
-                                      projectValue: '101%',
-                                      icon: Icon(Icons.check),
-                                      iconColor: Color(0xFF5cb85c),
-                                      textColor: Color(0xFF5cb85c),
-                                    ),
-                                    MyRow(
-                                      projectName: 'philosophers',
-                                      projectValue: '125%',
-                                      icon: Icon(Icons.check),
-                                      iconColor: Color(0xFF5cb85c),
-                                      textColor: Color(0xFF5cb85c),
-                                    ),
-                                    MyRow(
-                                      projectName: 'ExamRank03',
-                                      projectValue: '100%',
-                                      icon: Icon(Icons.check),
-                                      iconColor: Color(0xFF5cb85c),
-                                      textColor: Color(0xFF5cb85c),
-                                    ),
-                                    MyRow(
-                                      projectName: 'cub3d',
-                                      projectValue: '105%',
-                                      icon: Icon(Icons.check),
-                                      iconColor: Color(0xFF5cb85c),
-                                      textColor: Color(0xFF5cb85c),
-                                    ),
-                                    MyRow(
-                                      projectName: 'NetPractice',
-                                      projectValue: '100%',
-                                      icon: Icon(Icons.check),
-                                      iconColor: Color(0xFF5cb85c),
-                                      textColor: Color(0xFF5cb85c),
-                                    ),
-                                    MyRow(
-                                      projectName: 'ExamRank04',
-                                      projectValue: '100%',
-                                      icon: Icon(Icons.check),
-                                      iconColor: Color(0xFF5cb85c),
-                                      textColor: Color(0xFF5cb85c),
-                                    ),
-                                    MyRow(
-                                      projectName: 'CPP Module 08',
-                                      projectValue: '100%',
-                                      icon: Icon(Icons.check),
-                                      iconColor: Color(0xFF5cb85c),
-                                      textColor: Color(0xFF5cb85c),
-                                    ),
-                                    MyRow(
-                                      projectName: 'CPP Module 09',
-                                      projectValue: '100%',
-                                      icon: Icon(Icons.check),
-                                      iconColor: Color(0xFF5cb85c),
-                                      textColor: Color(0xFF5cb85c),
-                                    ),
-                                    MyRow(
-                                      projectName: 'webserv',
-                                      projectValue: '125%',
-                                      icon: Icon(Icons.check),
-                                      iconColor: Color(0xFF5cb85c),
-                                      textColor: Color(0xFF5cb85c),
-                                    ),
-                                    MyRow(
-                                      projectName: 'ft_transcendence',
-                                      projectValue: '100%',
-                                      icon: Icon(Icons.check),
-                                      iconColor: Color(0xFF5cb85c),
-                                      textColor: Color(0xFF5cb85c),
-                                    ),
-                                    MyRow(
-                                      projectName: 'swifty-companion',
-                                      projectValue: 'in_progress',
-                                      icon: Icon(
-                                        Iconsax.timer,
-                                        size: 14,
-                                      ),
-                                      iconColor:
-                                          Color.fromARGB(255, 255, 170, 22),
-                                      textColor:
-                                          Color.fromARGB(255, 255, 170, 22),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(164, 255, 255, 255),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: Center(
-                              child: SfCircularChart(
-                                  title: const ChartTitle(
-                                      text: 'charts of skills',
-                                      textStyle: TextStyle(
-                                        color: Colors.black,
-                                        fontFamily: 'mytwo',
-                                        fontWeight: FontWeight.bold,
-                                      )),
-                                  series: <CircularSeries>[
-                                    // Renders radial bar chart
-                                    RadialBarSeries<ChartData, String>(
-                                        cornerStyle: CornerStyle.bothCurve,
-                                        useSeriesColor: true,
-                                        dataLabelSettings:
-                                            const DataLabelSettings(
-                                                isVisible: true,
-                                                textStyle: TextStyle(
-                                                    fontFamily: 'mytwo',
-                                                    fontSize: 10)),
-                                        trackOpacity: 0.1,
-                                        gap: '4%',
-                                        dataSource: chartData,
-                                        xValueMapper: (ChartData data, _) =>
-                                            data.x,
-                                        yValueMapper: (ChartData data, _) =>
-                                            data.y)
-                                  ]),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
@@ -488,6 +487,9 @@ class _ProfilePageState extends State<ProfilePage> {
           TextButton(
             onPressed: () {
               Navigator.pop(context, 'Ok'); // No need for async here
+              setState(() {
+                isAlertSet = false;
+              });
             },
             child: const Text(
               'Ok',
