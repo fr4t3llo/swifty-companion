@@ -151,7 +151,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             const Text(
                               fullName,
 
-                              
+                            
                               style: TextStyle(
                                 fontSize: 15,
                                 color: Colors.black,
