@@ -130,6 +130,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       borderRadius: BorderRadius.circular(5)),
                   child: Row(
                     children: [
+
+                      
                       const Padding(
                         padding: EdgeInsets.all(8.0),
                         child: CircleAvatar(
