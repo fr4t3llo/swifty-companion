@@ -136,6 +136,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           radius: 53,
                           backgroundColor: Color(0xFF2B8BA1),
                           child: CircleAvatar(
+                            
                             maxRadius: 50,
                             // backgroundImage:
                             // AssetImage('assets/images/skasmi.jpeg'),
@@ -150,7 +151,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           children: [
                             const Text(
                               fullName,
-                              
+
                               style: TextStyle(
                                 fontSize: 15,
                                 color: Colors.black,
