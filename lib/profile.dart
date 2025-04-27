@@ -138,7 +138,6 @@ class _ProfilePageState extends State<ProfilePage> {
                           child: CircleAvatar(
                             maxRadius: 50,
           
-          
                             // backgroundImage:
                             // AssetImage('assets/images/skasmi.jpeg'),
                           ),
