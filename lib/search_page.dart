@@ -57,6 +57,7 @@ class _SearchPageState extends State<SearchPage> {
           });
         }
       }
+      
     } catch (e) {
       if (mounted) {
         setState(() {
