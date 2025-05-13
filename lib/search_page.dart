@@ -41,6 +41,7 @@ class _SearchPageState extends State<SearchPage> {
       // Get user data from API
       final userData = await ApiService.searchUser(username);
 
+
       if (mounted) {
         if (userData != null) {
           // Navigate to profile page with user data
