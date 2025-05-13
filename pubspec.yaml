@@ -66,7 +66,7 @@ flutter:
     - assets/images/logo42.png
     - assets/images/backV2.png
     - assets/images/skasmi.jpeg
-    - credentials.json
+    - assets/credentials.json
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

@@ -1,9 +1,9 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:swifty_companion/api/auth.dart';
+import 'package:swifty_companion/api/auth.dart';
 import 'package:swifty_companion/profile.dart';
-// import 'package:http/http.dart' as http;
+import 'package:swifty_companion/api/authpage.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -12,13 +12,84 @@ class SearchPage extends StatefulWidget {
   State<SearchPage> createState() => _SearchPageState();
 }
 
-class _SearchPageState extends State<SearchPage>
-    with SingleTickerProviderStateMixin {
+class _SearchPageState extends State<SearchPage> {
+  final TextEditingController _searchController = TextEditingController();
+  bool _isSearching = false;
+  String? _errorMessage;
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _performSearch() async {
+    // Validate input
+    final username = _searchController.text.trim();
+    if (username.isEmpty) {
+      setState(() {
+        _errorMessage = 'Please enter a username';
+      });
+      return;
+    }
+
+    setState(() {
+      _isSearching = true;
+      _errorMessage = null;
+    });
+
+    try {
+      // Get user data from API
+      final userData = await ApiService.searchUser(username);
+
+      if (mounted) {
+        if (userData != null) {
+          // Navigate to profile page with user data
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ProfilePage(userData: userData),
+            ),
+          );
+        } else {
+          setState(() {
+            _errorMessage = 'User not found';
+          });
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _errorMessage = 'Error: ${e.toString()}';
+        });
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isSearching = false;
+        });
+      }
+    }
+  }
+
+  void _handleLogout() async {
+    await AuthService.logout();
+    if (mounted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const AuthPage()),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Stack(
         children: [
+          // Background Image
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
@@ -27,65 +98,63 @@ class _SearchPageState extends State<SearchPage>
               ),
             ),
           ),
+
+          // Logout Button
+          Positioned(
+            top: 40,
+            right: 20,
+            child: IconButton(
+              icon: const Icon(Iconsax.logout_1, color: Colors.white),
+              onPressed: _handleLogout,
+              tooltip: 'Logout',
+            ),
+          ),
+
+          // Main Content
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                // Logo and Title
                 Image.asset('assets/images/logo42.png'),
-                const Text('Swifty Companion',
-                    style: TextStyle(
-                        color: Colors.white, fontSize: 50, fontFamily: 'my')),
-                const SizedBox(height: 40),
-                SizedBox(
+                const Text(
+                  'Swifty Companion',
+                  style: TextStyle(
+                      color: Colors.white, fontSize: 50, fontFamily: 'my'),
+                ),
 
-                  width: MediaQuery.sizeOf(context).width - 200,
+                const SizedBox(height: 40),
+
+                // Search Field
+                SizedBox(
+                  width: screenSize.width - 100,
                   child: TextField(
+                    controller: _searchController,
                     cursorColor: Colors.black,
                     style: const TextStyle(
                         color: Colors.black, fontFamily: 'mytwo', fontSize: 20),
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: const Color.fromARGB(255, 255, 255, 255),
+                      fillColor: Colors.white,
+                      hintText: 'Enter username',
+                      errorText: _errorMessage,
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
+                    onSubmitted: (_) => _performSearch(),
                   ),
                 ),
+
                 const SizedBox(height: 10),
+
+                // Search Button
                 SizedBox(
-                  width: MediaQuery.sizeOf(context).width - 250,
-                  height: 45, // Adjust the width as needed
+                  width: screenSize.width - 150,
+                  height: 45,
                   child: ElevatedButton(
-                    onPressed: () async {
-                      showDialog(
-                          barrierDismissible: false,
-                          context: context,
-                          builder: (context) => const SizedBox(
-                                height: 150,
-                                width: 150,
-                                child: Center(
-                                  child: SizedBox(
-                                    height: 50,
-                                    width: 50,
-                                    child: CircularProgressIndicator(
-                                      color: Colors.yellow,
-                                    ),
-                                  ),
-                                ),
-                              ));
-                      await Future.delayed(const Duration(seconds: 5), () {})
-                          .whenComplete(() {
-                        Navigator.pop(context);
-                      });
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ProfilePage(),
-                        ),
-                      );
-                    },
+                    onPressed: _isSearching ? null : _performSearch,
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 10.0),
                       backgroundColor: const Color(0xFFF7941D),
@@ -93,23 +162,32 @@ class _SearchPageState extends State<SearchPage>
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "SEARCH",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'mytwo',
-                            fontSize: 20,
+                    child: _isSearching
+                        ? const SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
+                            ),
+                          )
+                        : const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "SEARCH",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'mytwo',
+                                  fontSize: 20,
+                                ),
+                              ),
+                              Icon(
+                                Iconsax.search_normal,
+                                color: Colors.white,
+                              ),
+                            ],
                           ),
-                        ),
-                        Icon(
-                          Iconsax.search_normal,
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
                   ),
                 ),
               ],
