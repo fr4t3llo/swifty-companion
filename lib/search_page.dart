@@ -37,7 +37,6 @@ class _SearchPageState extends State<SearchPage> {
       _isSearching = true;
       _errorMessage = null;
     });
-
     try {
       // Get user data from API
       final userData = await ApiService.searchUser(username);
@@ -52,7 +51,6 @@ class _SearchPageState extends State<SearchPage> {
             ),
           );
         } else {
-          
           setState(() {
             _errorMessage = 'User not found';
           });
