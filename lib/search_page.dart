@@ -52,6 +52,7 @@ class _SearchPageState extends State<SearchPage> {
             ),
           );
         } else {
+          
           setState(() {
             _errorMessage = 'User not found';
           });
