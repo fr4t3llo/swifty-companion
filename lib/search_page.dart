@@ -56,6 +56,7 @@ class _SearchPageState extends State<SearchPage> {
             _errorMessage = 'User not found';
           });
         }
+        
       }
     } catch (e) {
       if (mounted) {
