@@ -125,7 +125,8 @@ class _SearchPageState extends State<SearchPage> {
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
-                      hintText: 'Enter username',
+                      hintText: 'Enter User Login',
+                      hintStyle: const TextStyle(fontFamily: 'mytwo'),
                       errorText: _errorMessage,
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,

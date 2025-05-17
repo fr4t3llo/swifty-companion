@@ -472,7 +472,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                     displayMark = 'in_progress';
                                                   } else {
                                                     statusIcon = const Icon(
-                                                        Icons.help_outline);
+                                                        Iconsax.profile_add5);
                                                     statusColor = Colors.grey;
                                                     displayMark = status;
                                                   }
@@ -562,8 +562,15 @@ class _ProfilePageState extends State<ProfilePage> {
                                                           String>(
                                                         dataSource:
                                                             _getSkillsData(),
-                                                        xValueMapper: (ChartData data,  _) => data.x,
-                                                        yValueMapper: (ChartData data, _) => data.y, name: 'Skills',
+                                                        xValueMapper:
+                                                            (ChartData data,
+                                                                    _) =>
+                                                                data.x,
+                                                        yValueMapper:
+                                                            (ChartData data,
+                                                                    _) =>
+                                                                data.y,
+                                                        name: 'Skills',
                                                         color: const Color(
                                                             0xFFF7941D),
                                                         borderRadius:
