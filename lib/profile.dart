@@ -7,10 +7,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:swifty_companion/api/auth.dart';
-
-import 'package:swifty_companion/search_page.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:swifty_companion/customWidgets/row.dart';
 
 class ProfilePage extends StatefulWidget {
   final Map<String, dynamic> userData;
@@ -88,16 +85,6 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
-  void _handleLogout() async {
-    await AuthService.logout();
-    if (mounted) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const SearchPage()),
-      );
-    }
-  }
-
   @override
   void dispose() {
     _pageController.dispose();
@@ -105,20 +92,17 @@ class _ProfilePageState extends State<ProfilePage> {
     super.dispose();
   }
 
-  // Calculate the level percentage
   double _calculateLevelPercentage() {
     if (_skills.isEmpty) {
       return 0.0;
     }
 
     try {
-      // Find the current cursus (usually 42cursus)
       final cursusUser = _skills.firstWhere(
         (skill) => skill['cursus']['slug'] == '42cursus',
         orElse: () => _skills.first,
       );
 
-      // Get level and calculate percentage
       final double level = cursusUser['level']?.toDouble() ?? 0.0;
       final int levelInt = level.toInt();
       final double percentage = level - levelInt;
@@ -130,14 +114,13 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  // Get user's full level (e.g., "14.05")
+  // Get users full level example "14.05"
   String _getUserLevel() {
     if (_skills.isEmpty) {
       return '0.00';
     }
 
     try {
-      // Find the current cursus (usually 42cursus)
       final cursusUser = _skills.firstWhere(
         (skill) => skill['cursus']['slug'] == '42cursus',
         orElse: () => _skills.first,
@@ -159,7 +142,6 @@ class _ProfilePageState extends State<ProfilePage> {
     }
 
     try {
-      // Find the current cursus (usually 42cursus)
       final cursusUser = _skills.firstWhere(
         (skill) => skill['cursus']['slug'] == '42cursus',
         orElse: () => _skills.first,
@@ -239,10 +221,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'Error loading data',
                             style: TextStyle(
-                              color: Colors.red[800],
+                              color: Color.fromARGB(255, 232, 0, 0),
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
@@ -252,7 +234,10 @@ class _ProfilePageState extends State<ProfilePage> {
                           const SizedBox(height: 16),
                           ElevatedButton(
                             onPressed: _loadUserData,
-                            child: const Text('Retry'),
+                            child: const Text(
+                              'Retry',
+                              style: TextStyle(color: Colors.black),
+                            ),
                           ),
                         ],
                       ),
@@ -577,15 +562,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                                           String>(
                                                         dataSource:
                                                             _getSkillsData(),
-                                                        xValueMapper:
-                                                            (ChartData data,
-                                                                    _) =>
-                                                                data.x,
-                                                        yValueMapper:
-                                                            (ChartData data,
-                                                                    _) =>
-                                                                data.y,
-                                                        name: 'Skills',
+                                                        xValueMapper: (ChartData data,  _) => data.x,
+                                                        yValueMapper: (ChartData data, _) => data.y, name: 'Skills',
                                                         color: const Color(
                                                             0xFFF7941D),
                                                         borderRadius:

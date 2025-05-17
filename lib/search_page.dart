@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:swifty_companion/api/auth.dart';
-import 'package:swifty_companion/api/auth.dart';
 import 'package:swifty_companion/profile.dart';
 import 'package:swifty_companion/api/authpage.dart';
 
@@ -24,7 +23,6 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Future<void> _performSearch() async {
-    // Validate input
     final username = _searchController.text.trim();
     if (username.isEmpty) {
       setState(() {
@@ -40,8 +38,6 @@ class _SearchPageState extends State<SearchPage> {
     try {
       // Get user data from API
       final userData = await ApiService.searchUser(username);
-
-
       if (mounted) {
         if (userData != null) {
           // Navigate to profile page with user data
@@ -89,7 +85,6 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       body: Stack(
         children: [
-          // Background Image
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
@@ -98,8 +93,6 @@ class _SearchPageState extends State<SearchPage> {
               ),
             ),
           ),
-
-          // Logout Button
           Positioned(
             top: 40,
             right: 20,
@@ -115,17 +108,13 @@ class _SearchPageState extends State<SearchPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                // Logo and Title
                 Image.asset('assets/images/logo42.png'),
                 const Text(
                   'Swifty Companion',
                   style: TextStyle(
                       color: Colors.white, fontSize: 50, fontFamily: 'my'),
                 ),
-
                 const SizedBox(height: 40),
-
-                // Search Field
                 SizedBox(
                   width: screenSize.width - 100,
                   child: TextField(

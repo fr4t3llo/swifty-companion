@@ -9,14 +9,36 @@ import 'package:flutter/services.dart' show rootBundle;
 class AuthService {
   static const String _tokenKey = 'access_token';
   static const String _expiryKey = 'token_expiry';
+  static const String _refreshTokenKey = 'refresh_token';
   static const String _userDataKey = 'user_data';
+  static Map<String, dynamic>? _cachedCredentials;
+
+// Work flow how the user auth :
+// my app                         42 API
+//   |                                |
+//   | ─1. Open login page ──────────>|
+//   |                                |
+//   | ─2. User logs in ─-────────────|
+//   |                                |
+//   | ─3. Redirect with code=skasmi12|
+//   |                                |
+//   | ─4. Exchange code for tokens ─>|
+//   |                                |
+//   | ─5. Returns access_token ──────|
+//   |                                |
+//   | ─6. Store tokens ──────────────|
 
   // Load credentials from JSON file
   static Future<Map<String, dynamic>> _getCredentials() async {
+    if (_cachedCredentials != null) {
+      return _cachedCredentials!;
+    }
+
     try {
       final String jsonString =
           await rootBundle.loadString('assets/credentials.json');
-      return json.decode(jsonString);
+      _cachedCredentials = json.decode(jsonString);
+      return _cachedCredentials!;
     } catch (e) {
       debugPrint('Error loading credentials: $e');
       throw Exception(
@@ -38,7 +60,12 @@ class AuthService {
       // Check if token is expired (with 5 minute buffer)
       final now = DateTime.now().millisecondsSinceEpoch;
       if (expiry - now < 300000) {
-        // Less than 5 minutes remaining
+        // Less than 5 minutes remaining, try to refresh the token
+        final String? refreshToken = prefs.getString(_refreshTokenKey);
+        if (refreshToken != null) {
+          final success = await refreshAccessToken();
+          return success;
+        }
         return false;
       }
 
@@ -64,7 +91,56 @@ class AuthService {
     }
   }
 
-  // Main authentication flow
+  // Refresh access token using refresh token
+  static Future<bool> refreshAccessToken() async {
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String? refreshToken = prefs.getString(_refreshTokenKey);
+
+      if (refreshToken == null) {
+        debugPrint('No refresh token available');
+        return false;
+      }
+
+      // Get API credentials
+      final credentials = await _getCredentials();
+      final clientId = credentials['API_KEY'];
+      final clientSecret = credentials['SECRET_ID'];
+
+      if (clientId == null || clientSecret == null) {
+        throw Exception('Invalid credentials format');
+      }
+
+      // Request new token
+      final response = await http.post(
+        Uri.parse('https://api.intra.42.fr/oauth/token'),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: {
+          'grant_type': 'refresh_token',
+          'client_id': clientId,
+          'client_secret': clientSecret,
+          'refresh_token': refreshToken,
+        },
+      );
+
+      if (response.statusCode != 200) {
+        debugPrint('Token refresh failed: ${response.body}');
+        return false;
+      }
+
+      // Save the new token data
+      final tokenData = json.decode(response.body);
+      await _saveTokenData(tokenData);
+
+      debugPrint('Token refreshed successfully');
+      return true;
+    } catch (e) {
+      debugPrint('Error refreshing token: $e');
+      return false;
+    }
+  }
+
+  // Main authentication
   static Future<bool> authenticateUser() async {
     try {
       // Get API credentials
@@ -254,7 +330,7 @@ class AuthService {
 
     // Save refresh token if available
     if (tokenData['refresh_token'] != null) {
-      await prefs.setString('refresh_token', tokenData['refresh_token']);
+      await prefs.setString(_refreshTokenKey, tokenData['refresh_token']);
     }
   }
 
@@ -297,36 +373,80 @@ class AuthService {
   // Get access token
   static Future<String?> getAccessToken() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_tokenKey);
+    final String? token = prefs.getString(_tokenKey);
+    final int? expiry = prefs.getInt(_expiryKey);
+
+    if (token == null || expiry == null) {
+      return null;
+    }
+
+    // Check if token is expire and refresh it after 5min
+    final now = DateTime.now().millisecondsSinceEpoch;
+    if (expiry - now < 300000) {
+      final refreshSuccess = await refreshAccessToken();
+      if (refreshSuccess) {
+        return prefs.getString(_tokenKey);
+      }
+      return null;
+    }
+    return token;
   }
 
-  // Logout - clear all saved data
+  // Logout and clear all saved data from local using shared preference
   static Future<void> logout() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove(_tokenKey);
     await prefs.remove(_expiryKey);
     await prefs.remove(_userDataKey);
-    await prefs.remove('refresh_token');
+    await prefs.remove(_refreshTokenKey);
   }
 }
 
 class ApiService {
   static const String baseUrl = 'https://api.intra.42.fr/v2';
 
+  // Execute API request with automatic token refresh
+
+  static Future<http.Response> _executeRequest(
+      Future<http.Response> Function(String token) requestFunction) async {
+    // Get the access token
+    String? token = await AuthService.getAccessToken();
+    if (token == null) {
+      throw Exception('No access token available');
+    }
+
+    // Execute the request
+    http.Response response = await requestFunction(token);
+
+    // Handle unauthorized response by refreshing token and retrying once
+    if (response.statusCode == 401) {
+      debugPrint('Token expired, attempting to refresh...');
+
+      final refreshSuccess = await AuthService.refreshAccessToken();
+      if (!refreshSuccess) {
+        throw Exception('Token refresh failed');
+      }
+
+      // Get the new token after refresh
+      token = await AuthService.getAccessToken();
+      if (token == null) {
+        throw Exception('Failed to get new token after refresh');
+      }
+
+      // Retry the request with the new token
+      response = await requestFunction(token);
+    }
+
+    return response;
+  }
+
   // Search for a user by login
   static Future<Map<String, dynamic>?> searchUser(String login) async {
     try {
-      // Get the access token
-      final token = await AuthService.getAccessToken();
-      if (token == null) {
-        throw Exception('No access token available');
-      }
-
-      // Make the API request
-      final response = await http.get(
-        Uri.parse('$baseUrl/users/$login'),
-        headers: {'Authorization': 'Bearer $token'},
-      );
+      final response = await _executeRequest((token) => http.get(
+            Uri.parse('$baseUrl/users/$login'),
+            headers: {'Authorization': 'Bearer $token'},
+          ));
 
       // Handle response
       if (response.statusCode == 200) {
@@ -343,18 +463,14 @@ class ApiService {
     }
   }
 
-  // Get user's projects
+  // Get user's projects with handle some errors like when faild to load it
+
   static Future<List<dynamic>> getUserProjects(int userId) async {
     try {
-      final token = await AuthService.getAccessToken();
-      if (token == null) {
-        throw Exception('No access token available');
-      }
-
-      final response = await http.get(
-        Uri.parse('$baseUrl/users/$userId/projects_users'),
-        headers: {'Authorization': 'Bearer $token'},
-      );
+      final response = await _executeRequest((token) => http.get(
+            Uri.parse('$baseUrl/users/$userId/projects_users'),
+            headers: {'Authorization': 'Bearer $token'},
+          ));
 
       if (response.statusCode == 200) {
         return json.decode(response.body);
@@ -369,17 +485,13 @@ class ApiService {
   }
 
   // Get user's skills
+
   static Future<List<dynamic>> getUserSkills(int userId) async {
     try {
-      final token = await AuthService.getAccessToken();
-      if (token == null) {
-        throw Exception('No access token available');
-      }
-
-      final response = await http.get(
-        Uri.parse('$baseUrl/users/$userId/cursus_users'),
-        headers: {'Authorization': 'Bearer $token'},
-      );
+      final response = await _executeRequest((token) => http.get(
+            Uri.parse('$baseUrl/users/$userId/cursus_users'),
+            headers: {'Authorization': 'Bearer $token'},
+          ));
 
       if (response.statusCode == 200) {
         return json.decode(response.body);
