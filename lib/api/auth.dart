@@ -374,13 +374,14 @@ class AuthService {
   static Future<String?> getAccessToken() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? token = prefs.getString(_tokenKey);
+
     final int? expiry = prefs.getInt(_expiryKey);
 
     if (token == null || expiry == null) {
       return null;
     }
 
-    // Check if token is expire and refresh it after 5min
+    // Check if token is expire and refresh it before 2h end in 5min
     final now = DateTime.now().millisecondsSinceEpoch;
     if (expiry - now < 300000) {
       final refreshSuccess = await refreshAccessToken();
@@ -429,6 +430,7 @@ class ApiService {
 
       // Get the new token after refresh
       token = await AuthService.getAccessToken();
+
       if (token == null) {
         throw Exception('Failed to get new token after refresh');
       }
